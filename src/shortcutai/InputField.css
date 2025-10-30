@@ -1,0 +1,319 @@
+.inputfield-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.left-panel {
+  width: 220px;
+  background: #FAFAFA;
+  padding: 0 10px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-right: 1px solid #F2F2F7;
+  flex-shrink: 0;
+}
+
+.left-spacer {
+  flex: 1;
+}
+
+.config-btn {
+  padding: 7px 12px;
+  background: transparent;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.config-btn:hover {
+  background: #F2F2F7;
+}
+
+.config-btn.active {
+  background: #007AFF;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.config-btn .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.add-profile-btn {
+  padding: 8px 12px;
+  background: transparent;
+  color: #007AFF;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  margin-bottom: 8px;
+}
+
+.add-profile-btn:hover {
+  background: #F2F2F7;
+}
+
+.profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.menu-title {
+  margin: 10px 8px 6px;
+  color: #8E8E93;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.settings-btn {
+  padding: 7px 12px;
+  background: transparent;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  margin-top: 8px;
+}
+
+.settings-btn:hover {
+  background: #F2F2F7;
+}
+
+.profile-item {
+  padding: 7px 12px;
+  background: transparent;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  word-wrap: break-word;
+}
+
+.profile-item:hover {
+  background: #F2F2F7;
+}
+
+.profile-item.active {
+  background: #007AFF;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.right-panel {
+  flex: 1;
+  padding: 0 64px 40px;
+  overflow: hidden;
+  background: #FFFFFF;
+  max-width: 100%;
+}
+
+.profile-editor,
+.general-config {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 32px;
+  color: #000000;
+  margin-bottom: 32px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.config-description {
+  color: #8E8E93;
+  margin-bottom: 48px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #8E8E93;
+  font-weight: 400;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.form-group input[type='text'],
+.form-group textarea {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 1px solid #F2F2F7;
+  font-size: 17px;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+  background: transparent;
+  color: #000000;
+  outline: none;
+}
+
+.form-group input[type='text']:focus,
+.form-group textarea:focus {
+  border-bottom-color: #007AFF;
+}
+
+.form-group input[type='text']::placeholder,
+.form-group textarea::placeholder {
+  color: #C7C7CC;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
+  line-height: 1.6;
+  padding-top: 8px;
+}
+
+.help-text {
+  display: block;
+  margin-top: 8px;
+  color: #C7C7CC;
+  font-size: 13px;
+}
+
+.hotkey-input-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F2F2F7;
+}
+
+.hotkey-display {
+  flex: 1;
+  font-size: 17px;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  font-weight: 500;
+  color: #000000;
+}
+
+.hotkey-display:empty::before {
+  content: 'Not set';
+  color: #C7C7CC;
+}
+
+.record-hotkey-btn {
+  padding: 6px 16px;
+  background: transparent;
+  color: #007AFF;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.record-hotkey-btn:hover {
+  background: #F2F2F7;
+}
+
+.record-hotkey-btn.recording {
+  color: #FF3B30;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.4; }
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background: transparent;
+  color: #FF3B30;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-top: 32px;
+}
+
+.delete-btn:hover {
+  background: #FFEBEB;
+}
+
+.profile-list::-webkit-scrollbar,
+.right-panel::-webkit-scrollbar {
+  width: 0;
+}
+
+.profile-list,
+.right-panel {
+  scrollbar-width: none;
+}
+
+@media (max-width: 1024px) {
+  .right-panel {
+    padding: 40px 48px;
+  }
+  .profile-editor,
+  .general-config {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-panel {
+    width: 200px;
+    padding: 16px 8px;
+  }
+  .right-panel {
+    padding: 32px 32px;
+  }
+  h2 {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+  .profile-editor,
+  .general-config {
+    max-width: 100%;
+  }
+}
