@@ -1,57 +1,121 @@
+import { invoke } from "@tauri-apps/api/core";
+
+type ChangeViewHandler = (view: string) => void;
+type ProcessingHandler = (processing: boolean) => void;
+type SelectorHandler = (payload: any) => void;
+
 declare global {
   interface Window {
     api: any;
   }
 }
 
-const defaultApi = {
-  // Settings APIs
+const changeViewListeners = new Set<ChangeViewHandler>();
+const processingListeners = new Set<ProcessingHandler>();
+const selectorListeners = new Set<SelectorHandler>();
+
+const emitChangeView = (view: string) => {
+  changeViewListeners.forEach((cb) => {
+    try {
+      cb(view);
+    } catch (error) {
+      console.error("onChangeView listener error", error);
+    }
+  });
+};
+
+const emitProcessing = (processing: boolean) => {
+  processingListeners.forEach((cb) => {
+    try {
+      cb(processing);
+    } catch (error) {
+      console.error("onAIProcessing listener error", error);
+    }
+  });
+};
+
+const emitSelectorData = (payload: any) => {
+  selectorListeners.forEach((cb) => {
+    try {
+      cb(payload);
+    } catch (error) {
+      console.error("onSelectorData listener error", error);
+    }
+  });
+};
+
+async function safeInvoke<T>(command: string, payload: Record<string, unknown> | undefined, fallback: T): Promise<T> {
+  try {
+    return await invoke<T>(command, payload);
+  } catch (error) {
+    console.warn(`${command} failed`, error);
+    return fallback;
+  }
+}
+
+const defaultConfig = { autoStart: false, apiKey: "" };
+const defaultInputFieldConfig = { profiles: [], general: { hotkey: "" } };
+const defaultSelectionConfig = { profiles: [], general: { enabled: true } };
+
+const api = {
   async getConfig() {
-    return { autoStart: false, apiKey: '' };
+    return safeInvoke("get_config", undefined, defaultConfig);
   },
-  async saveConfig(_config: any) {
-    return true;
+  async saveConfig(config: unknown) {
+    await invoke("save_config", { config });
   },
 
-  // InputField APIs
   async getInputFieldConfig() {
-    return { profiles: [], general: { hotkey: '' } };
+    return safeInvoke("get_input_field_config", undefined, defaultInputFieldConfig);
   },
-  async saveInputFieldConfig(_config: any) {
-    return true;
+  async saveInputFieldConfig(config: unknown) {
+    await invoke("save_input_field_config", { config });
   },
 
-  // Selection APIs
   async getSelectionConfig() {
-    return { profiles: [], general: { enabled: true } };
+    return safeInvoke("get_selection_config", undefined, defaultSelectionConfig);
   },
-  async saveSelectionConfig(_config: any) {
-    return true;
+  async saveSelectionConfig(config: unknown) {
+    await invoke("save_selection_config", { config });
   },
 
-  // UI / events
-  onChangeView(_cb: (view: string) => void) {
-    // no-op
+  onChangeView(handler: ChangeViewHandler) {
+    changeViewListeners.add(handler);
+    return () => changeViewListeners.delete(handler);
+  },
+  changeView(view: string) {
+    emitChangeView(view);
   },
   openSettings() {
-    // In Tauri, you might open a route/window; leaving no-op for now
+    emitChangeView("settings");
   },
-  onAIProcessing(_cb: (processing: boolean) => void) {
-    // no-op
+
+  onAIProcessing(handler: ProcessingHandler) {
+    processingListeners.add(handler);
+    return () => processingListeners.delete(handler);
   },
+  setAIProcessing(processing: boolean) {
+    emitProcessing(processing);
+  },
+
+  onSelectorData(handler: SelectorHandler) {
+    selectorListeners.add(handler);
+    return () => selectorListeners.delete(handler);
+  },
+  emitSelectorData(payload: any) {
+    emitSelectorData(payload);
+  },
+
   showMainWindow() {
-    // no-op
-  },
-  onSelectorData(_cb: (payload: any) => void) {
-    // no-op
+    emitChangeView("inputfield");
   },
   chooseSelectorIndex(_token: string, _index: number) {
-    // no-op
+    // Implement Tauri logic if needed later
   }
 };
 
-if (typeof window !== 'undefined' && !window.api) {
-  window.api = defaultApi;
+if (typeof window !== "undefined") {
+  window.api = api;
 }
 
 export {};

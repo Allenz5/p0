@@ -22,10 +22,14 @@ function Settings() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [autoStart, apiKey]);
 
+  const goBackToMain = () => {
+    window.api?.changeView?.('inputfield');
+  };
+
   const loadSettings = async () => {
     try {
       const config = await window.api.getConfig();
-      setAutoStart(config.autoStart);
+      setAutoStart(Boolean(config.autoStart));
       setApiKey(config.apiKey || '');
     } catch (error) {
       showMessage('Error loading settings', 'error');
@@ -55,7 +59,7 @@ function Settings() {
       showMessage('Settings saved successfully!', 'success');
 
       setTimeout(() => {
-        window.close();
+        goBackToMain();
       }, 1000);
     } catch (error) {
       showMessage('Error saving settings', 'error');
@@ -63,7 +67,7 @@ function Settings() {
   };
 
   const handleCancel = () => {
-    window.close();
+    goBackToMain();
   };
 
   return (

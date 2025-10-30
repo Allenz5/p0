@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import InputField from './InputField';
+import Settings from './Settings';
 
 function App() {
   const [currentView, setCurrentView] = useState('inputfield');
 
   useEffect(() => {
     if (window.api && window.api.onChangeView) {
-      window.api.onChangeView((view) => {
+      const unsubscribe = window.api.onChangeView((view) => {
         setCurrentView(view);
       });
+      return unsubscribe;
     }
   }, []);
 
@@ -35,6 +37,8 @@ function App() {
             </p>
           </div>
         );
+      case 'settings':
+        return <Settings />;
       default:
         return (
           <div className="view-content">
